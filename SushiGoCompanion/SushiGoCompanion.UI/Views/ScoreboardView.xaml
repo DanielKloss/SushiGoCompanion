@@ -1,0 +1,56 @@
+﻿<Page
+    x:Name="pageRoot"
+    x:Class="SushiGoCompanion.UI.Views.ScoreboardView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <RelativePanel>
+        <CommandBar x:Name="topCommandBar" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+                    Style="{StaticResource TopCommandBarStyle}">
+            <CommandBar.Content>
+                <TextBlock Style="{StaticResource TitleTextStyle}">
+                    <Run Text="Round"/>
+                    <Run Text="{Binding game.round}"/>
+                </TextBlock>
+            </CommandBar.Content>
+        </CommandBar>
+
+        <Pivot RelativePanel.Below="topCommandBar" RelativePanel.Above="bottomCommandBar"
+               RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
+               ItemsSource="{Binding players}">
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding name}"/>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <Pivot.ItemTemplate>
+                <DataTemplate>
+                    <ListView ItemsSource="{Binding sushiScores}">
+                        <ListView.ItemContainerStyle>
+                            <StaticResource ResourceKey="NoBorderListViewStyle"/>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding DataContext.game.round, ElementName=pageRoot}"
+                                               HorizontalAlignment="Center" Margin="0,0,0,12" Style="{StaticResource ShadowTextStyle}"/>
+                                    <TextBox Text="{Binding roundScore, Converter={StaticResource intToStringConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" MaxLength="3" HorizontalAlignment="Center" FontSize="40" Padding="0,0,0,0" Margin="0,0,12,0" Width="100" TextAlignment="Center"/>
+                                    <Line x:Name="line" X1="1" X2="250" HorizontalAlignment="Center" Stroke="{StaticResource PrimaryColourBrush}" StrokeThickness="3" Margin="0,24,0,8"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DataTemplate>
+            </Pivot.ItemTemplate>
+        </Pivot>
+        <CommandBar x:Name="bottomCommandBar" IsEnabled="{Binding newRound, Converter={StaticResource booleanReverserConverter}}"
+                    RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
+            <AppBarButton Icon="Cancel" Label="Delete Game" Command="{Binding cancelGameCommand}"/>
+            <AppBarButton Icon="Accept" Label="Finish Game" Command="{Binding finishGameCommand}"/>
+            <AppBarButton Icon="Forward" Label="Next Round" Command="{Binding nextRoundCommand}"/>
+        </CommandBar>
+    </RelativePanel>
+</Page>
