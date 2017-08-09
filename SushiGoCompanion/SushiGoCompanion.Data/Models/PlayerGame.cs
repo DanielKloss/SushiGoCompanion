@@ -117,14 +117,14 @@ namespace SushiGoCompanion.Data.Models
             }
         }
 
-        private int _desertScore;
-        public int desertScore
+        private int _puddingScore;
+        public int puddingScore
         {
-            get { return _desertScore; }
+            get { return _puddingScore; }
             set
             {
-                _desertScore = value;
-                OnPropertyChanged(nameof(desertScore));
+                _puddingScore = value;
+                OnPropertyChanged(nameof(puddingScore));
             }
         }
 

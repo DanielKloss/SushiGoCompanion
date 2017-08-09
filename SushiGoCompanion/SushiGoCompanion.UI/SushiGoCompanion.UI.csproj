@@ -103,6 +103,7 @@
     <Compile Include="Converters\IntToStringConverter.cs" />
     <Compile Include="Converters\ListColourConverter.cs" />
     <Compile Include="Converters\MinusScoreConverter.cs" />
+    <Compile Include="Converters\NigiriVisibilityConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>

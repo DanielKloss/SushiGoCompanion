@@ -48,7 +48,7 @@
             </Pivot.HeaderTemplate>
             <Pivot.ItemTemplate>
                 <DataTemplate>
-                    <ListView ItemsSource="{Binding sushiScores}">
+                    <ListView ItemsSource="{Binding sushiCards}">
                         <ListView.ItemContainerStyle>
                             <StaticResource ResourceKey="NoBorderListViewStyle"/>
                         </ListView.ItemContainerStyle>
@@ -61,9 +61,15 @@
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                         <Button Content="-" CommandParameter="{Binding}" Command="{Binding DataContext.minusScoreCommand, ElementName=pageRoot}"  Style="{StaticResource RoundButtonStyle}" Margin="0,0,16,0"/>
-                                        <TextBlock Text="{Binding numberOfCards}" HorizontalAlignment="Center" FontSize="32" Padding="0,0,0,0" Width="100" TextAlignment="Center"/>
+                                        <TextBlock Text="{Binding score}" HorizontalAlignment="Center" FontSize="32" Width="100" TextAlignment="Center"/>
                                         <Button Content="+" CommandParameter="{Binding}" Command="{Binding DataContext.plusScoreCommand, ElementName=pageRoot}" Style="{StaticResource RoundButtonStyle}" Margin="16,0,0,0"/>
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,0" Visibility="{Binding name, Converter={StaticResource nigiriVisibilityConverter}}">
+                                        <Image Source="/Assets/Sushi/Wasabi.png" Height="40" Width="40"/>
+                                        <TextBlock Text="Wasabi" Margin="8,0,0,0" Style="{StaticResource TextStyle}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <Slider Maximum="6" Minimum="0" Value="{Binding wasabis, Mode=TwoWay}" IsThumbToolTipEnabled="False" TickFrequency="1" SmallChange="1" LargeChange="1" TickPlacement="None" SnapsTo="Ticks" 
+                                            Width="250" Margin="0,8,0,-16" Style="{StaticResource ScoreSliderStyle}" Visibility="{Binding name, Converter={StaticResource nigiriVisibilityConverter}}"/>
                                     <Line x:Name="line" X1="1" X2="250" HorizontalAlignment="Center" Stroke="{StaticResource PrimaryColourBrush}" StrokeThickness="3" Margin="0,24,0,16"/>
                                 </StackPanel>
                             </DataTemplate>

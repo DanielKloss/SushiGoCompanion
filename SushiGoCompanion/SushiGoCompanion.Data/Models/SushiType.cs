@@ -5,14 +5,14 @@
         public string name { get; set; }
         public string image { get; set; }
 
-        private int _numberOfCards;
-        public int numberOfCards
+        private int _score;
+        public int score
         {
-            get { return _numberOfCards; }
+            get { return _score; }
             set
             {
-                _numberOfCards = value;
-                OnPropertyChanged(nameof(numberOfCards));
+                _score = value;
+                OnPropertyChanged(nameof(score));
             }
         }
 
@@ -30,7 +30,7 @@
         public SushiType(Sushis Name)
         {
             name = Name.ToString().Contains("Nigiri") ? Name.ToString().Insert(Name.ToString().IndexOf("Nigiri", 0), " ") : Name.ToString();
-            numberOfCards = 0;
+            score = 0;
             wasabis = 0;
             image = "/Assets/Sushi/" + name + ".png";
         }

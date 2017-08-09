@@ -51,18 +51,6 @@ namespace SushiGoCompanion.Data.Models
             }
         }
 
-        private int _roundScore;
-        [Ignore]
-        public int roundScore
-        {
-            get { return _roundScore; }
-            set
-            {
-                _roundScore = value;
-                OnPropertyChanged(nameof(roundScore));
-            }
-        }
-
         private int _totalScore;
         [Ignore]
         public int totalScore
@@ -75,18 +63,29 @@ namespace SushiGoCompanion.Data.Models
             }
         }
 
-        private ObservableCollection<SushiType> _sushiScores;
+        private ObservableCollection<SushiType> _sushiCards;
         [Ignore]
-        public ObservableCollection<SushiType> sushiScores
+        public ObservableCollection<SushiType> sushiCards
         {
-            get { return _sushiScores; }
+            get { return _sushiCards; }
             set
             {
-                _sushiScores = value;
-                OnPropertyChanged(nameof(sushiScores));
+                _sushiCards = value;
+                OnPropertyChanged(nameof(sushiCards));
             }
         }
 
+        private ObservableCollection<SushiType> _sushiScore;
+        [Ignore]
+        public ObservableCollection<SushiType> sushiScore
+        {
+            get { return _sushiScore; }
+            set
+            {
+                _sushiScore = value;
+                OnPropertyChanged(nameof(sushiScore));
+            }
+        }
 
         private bool _isWinner;
         [Ignore]
@@ -116,7 +115,7 @@ namespace SushiGoCompanion.Data.Models
         {
             achievements = new ObservableCollection<Achievement>();
 
-            sushiScores = new ObservableCollection<SushiType>()
+            sushiCards = new ObservableCollection<SushiType>()
             {
                 new SushiType(Sushis.Maki),
                 new SushiType(Sushis.Dumpling),
@@ -124,8 +123,18 @@ namespace SushiGoCompanion.Data.Models
                 new SushiType(Sushis.Sashimi),
                 new SushiType(Sushis.EggNigiri),
                 new SushiType(Sushis.SalmonNigiri),
-                new SushiType(Sushis.SquidNigiri),
-                new SushiType(Sushis.Pudding)
+                new SushiType(Sushis.SquidNigiri)
+            };
+
+            sushiScore = new ObservableCollection<SushiType>()
+            {
+                new SushiType(Sushis.Maki),
+                new SushiType(Sushis.Dumpling),
+                new SushiType(Sushis.Tempura),
+                new SushiType(Sushis.Sashimi),
+                new SushiType(Sushis.EggNigiri),
+                new SushiType(Sushis.SalmonNigiri),
+                new SushiType(Sushis.SquidNigiri)
             };
 
             totalScore = 0;

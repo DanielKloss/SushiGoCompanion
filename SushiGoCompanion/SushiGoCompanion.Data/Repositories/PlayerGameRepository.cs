@@ -11,12 +11,12 @@ namespace SushiGoCompanion.Data.Repositories
             {
                 gameId = GameId,
                 playerId = player.id,
-                makiScore = player.sushiScores.SingleOrDefault(s => s.name == "Maki").numberOfCards,
-                dumplingScore = player.sushiScores.SingleOrDefault(s => s.name == "Dumpling").numberOfCards,
-                tempuraScore = player.sushiScores.SingleOrDefault(s => s.name == "Tempura").numberOfCards,
-                sashimiScore = player.sushiScores.SingleOrDefault(s => s.name == "Sashimi").numberOfCards,
-                nigiriScore = player.sushiScores.SingleOrDefault(s => s.name == "Nigiri").numberOfCards,
-                desertScore = player.sushiScores.SingleOrDefault(s => s.name == "Dessert").numberOfCards
+                makiScore = player.sushiScore.SingleOrDefault(s => s.name == Sushis.Maki.ToString()).score,
+                dumplingScore = player.sushiScore.SingleOrDefault(s => s.name == Sushis.Dumpling.ToString()).score,
+                tempuraScore = player.sushiScore.SingleOrDefault(s => s.name == Sushis.Tempura.ToString()).score,
+                sashimiScore = player.sushiScore.SingleOrDefault(s => s.name == Sushis.Sashimi.ToString()).score,
+                nigiriScore = player.sushiScore.SingleOrDefault(s => s.name == Sushis.EggNigiri.ToString()).score + player.sushiScore.SingleOrDefault(s => s.name == Sushis.SalmonNigiri.ToString()).score + player.sushiScore.SingleOrDefault(s => s.name == Sushis.SquidNigiri.ToString()).score,
+                puddingScore = player.sushiScore.SingleOrDefault(s => s.name == Sushis.Pudding.ToString()).score
             });
         }
     }
