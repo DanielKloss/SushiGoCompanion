@@ -14,7 +14,7 @@
         <converters:BooleanReverserConverter x:Key="booleanReverserConverter"/>
         <converters:IntToStringConverter x:Key="intToStringConverter"/>
         <converters:DateTimeConverter x:Key="dateTimeConverter"/>
-        
+
         <SolidColorBrush x:Key="PrimaryColourBrush" Color="#292E62"/>
         <SolidColorBrush x:Key="LighterPrimaryColourBrush" Color="#606593"/>
         <SolidColorBrush x:Key="GreyerPrimaryColourBrush" Color="#C6C9E6"/>
@@ -150,6 +150,23 @@
                                                ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" 
                                                SelectionCheckMarkVisualEnabled="True" 
                                                SelectedBorderThickness="{ThemeResource ListViewItemCompactSelectedBorderThemeThickness}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RoundButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse Fill="{StaticResource PrimaryColourBrush}"
+                                     UseLayoutRounding="False"
+                                     Height="40"
+                                     Width="40" />
+                            <TextBlock Text="{TemplateBinding Content}" Style="{StaticResource TextStyle}" Foreground="White" FontSize="20" FontWeight="Bold"
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                        </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

@@ -5,12 +5,9 @@ using SushiGoCompanion.Data.Repositories;
 using SushiGoCompanion.UI.Dialogs;
 using SushiGoCompanion.UI.Views;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -43,6 +40,34 @@ namespace SushiGoCompanion.UI.ViewModels
                 _game = value;
                 OnPropertyChanged(nameof(game));
             }
+        }
+
+        private ICommand _minusScoreCommand;
+        public ICommand minusScoreCommand
+        {
+            get
+            {
+                if (_minusScoreCommand == null)
+                {
+                    _minusScoreCommand = new Command<SushiType>(MinusScore);
+                }
+                return _minusScoreCommand;
+            }
+            set { _minusScoreCommand = value; }
+        }
+
+        private ICommand _plusScoreCommand;
+        public ICommand plusScoreCommand
+        {
+            get
+            {
+                if (_plusScoreCommand == null)
+                {
+                    _plusScoreCommand = new Command<SushiType>(PlusScore);
+                }
+                return _plusScoreCommand;
+            }
+            set { _plusScoreCommand = value; }
         }
 
         private ICommand _nextRoundCommand;
@@ -97,6 +122,21 @@ namespace SushiGoCompanion.UI.ViewModels
             game.round = 1;
             game.dateTime = DateTime.Now;
             game.players = new ObservableCollection<Player>(Players);
+        }
+
+        private void PlusScore(SushiType sushi)
+        {
+            sushi.numberOfCards++;
+            ((Command<SushiType>)plusScoreCommand).RaiseCanExecuteChanged();
+        }
+
+        private void MinusScore(SushiType sushi)
+        {
+            if (sushi.numberOfCards > 0)
+            {
+                sushi.numberOfCards--;
+                ((Command<SushiType>)plusScoreCommand).RaiseCanExecuteChanged();
+            }
         }
 
         private void NextRound()

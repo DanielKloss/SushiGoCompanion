@@ -5,11 +5,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Media="using:Microsoft.Xaml.Interactions.Media"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Storyboard x:Name="newRound" AutoReverse="True" Completed="newRound_Completed">
+            <DoubleAnimation BeginTime="0:0:0.1" Duration="0:0:1.5" From="5000" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="roundMarker">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Duration="0:0:0.01" From="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="roundChangeBackground"/>
+        </Storyboard>
+    </Page.Resources>
+
     <RelativePanel>
-        <CommandBar x:Name="topCommandBar" RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-                    Style="{StaticResource TopCommandBarStyle}">
+        <Interactivity:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{Binding newRound}" Value="True">
+                <Media:ControlStoryboardAction Storyboard="{StaticResource newRound}"/>
+            </Core:DataTriggerBehavior>
+        </Interactivity:Interaction.Behaviors>
+
+        <CommandBar x:Name="topCommandBar" Style="{StaticResource TopCommandBarStyle}"
+                    RelativePanel.AlignTopWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True">
             <CommandBar.Content>
                 <TextBlock Style="{StaticResource TitleTextStyle}">
                     <Run Text="Round"/>
@@ -20,7 +40,7 @@
 
         <Pivot RelativePanel.Below="topCommandBar" RelativePanel.Above="bottomCommandBar"
                RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignRightWithPanel="True"
-               ItemsSource="{Binding players}">
+               ItemsSource="{Binding game.players}">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding name}"/>
@@ -35,10 +55,16 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="{Binding DataContext.game.round, ElementName=pageRoot}"
-                                               HorizontalAlignment="Center" Margin="0,0,0,12" Style="{StaticResource ShadowTextStyle}"/>
-                                    <TextBox Text="{Binding roundScore, Converter={StaticResource intToStringConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" InputScope="Number" MaxLength="3" HorizontalAlignment="Center" FontSize="40" Padding="0,0,0,0" Margin="0,0,12,0" Width="100" TextAlignment="Center"/>
-                                    <Line x:Name="line" X1="1" X2="250" HorizontalAlignment="Center" Stroke="{StaticResource PrimaryColourBrush}" StrokeThickness="3" Margin="0,24,0,8"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,12">
+                                        <Image Source="{Binding image}" Height="80" Width="80"/>
+                                        <TextBlock Text="{Binding name}" Margin="16,0,0,0" Style="{StaticResource TextStyle}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <Button Content="-" CommandParameter="{Binding}" Command="{Binding DataContext.minusScoreCommand, ElementName=pageRoot}"  Style="{StaticResource RoundButtonStyle}" Margin="0,0,16,0"/>
+                                        <TextBlock Text="{Binding numberOfCards}" HorizontalAlignment="Center" FontSize="32" Padding="0,0,0,0" Width="100" TextAlignment="Center"/>
+                                        <Button Content="+" CommandParameter="{Binding}" Command="{Binding DataContext.plusScoreCommand, ElementName=pageRoot}" Style="{StaticResource RoundButtonStyle}" Margin="16,0,0,0"/>
+                                    </StackPanel>
+                                    <Line x:Name="line" X1="1" X2="250" HorizontalAlignment="Center" Stroke="{StaticResource PrimaryColourBrush}" StrokeThickness="3" Margin="0,24,0,16"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -46,6 +72,23 @@
                 </DataTemplate>
             </Pivot.ItemTemplate>
         </Pivot>
+
+        <Grid x:Name="roundChangeBackground" Grid.Row="0" Grid.RowSpan="2" Background="{StaticResource PrimaryColourBrush}" Opacity="0"
+              Visibility="{Binding newRound, Converter={StaticResource booleanToVisibilityConverter}}"
+              RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+            <StackPanel x:Name="roundMarker" VerticalAlignment="Center" Margin="12,0,12,0" Padding="12" Background="White"
+                        RenderTransformOrigin="0.5,0.5">
+                <StackPanel.RenderTransform>
+                    <CompositeTransform TranslateY="5000"></CompositeTransform>
+                </StackPanel.RenderTransform>
+                <Image Source="/Assets/Logos/Logo.png" Height="50" Margin="0,0,0,4"/>
+                <TextBlock Style="{StaticResource TextStyle}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,12">
+                    <Run Text="Round "/>
+                    <Run Text="{Binding game.round}"/>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
+
         <CommandBar x:Name="bottomCommandBar" IsEnabled="{Binding newRound, Converter={StaticResource booleanReverserConverter}}"
                     RelativePanel.AlignBottomWithPanel="True" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
             <AppBarButton Icon="Cancel" Label="Delete Game" Command="{Binding cancelGameCommand}"/>

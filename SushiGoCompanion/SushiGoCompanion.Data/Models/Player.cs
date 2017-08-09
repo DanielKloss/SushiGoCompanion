@@ -115,7 +115,19 @@ namespace SushiGoCompanion.Data.Models
         public Player()
         {
             achievements = new ObservableCollection<Achievement>();
-            sushiScores = new ObservableCollection<SushiType>();
+
+            sushiScores = new ObservableCollection<SushiType>()
+            {
+                new SushiType(Sushis.Maki),
+                new SushiType(Sushis.Dumpling),
+                new SushiType(Sushis.Tempura),
+                new SushiType(Sushis.Sashimi),
+                new SushiType(Sushis.EggNigiri),
+                new SushiType(Sushis.SalmonNigiri),
+                new SushiType(Sushis.SquidNigiri),
+                new SushiType(Sushis.Pudding)
+            };
+
             totalScore = 0;
         }
     }

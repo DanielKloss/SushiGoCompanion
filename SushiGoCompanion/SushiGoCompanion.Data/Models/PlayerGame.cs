@@ -50,6 +50,28 @@ namespace SushiGoCompanion.Data.Models
             }
         }
 
+        private bool _isWinner;
+        public bool isWinner
+        {
+            get { return _isWinner; }
+            set
+            {
+                _isWinner = value;
+                OnPropertyChanged(nameof(isWinner));
+            }
+        }
+
+        private bool _isLoser;
+        public bool isLoser
+        {
+            get { return _isLoser; }
+            set
+            {
+                _isLoser = value;
+                OnPropertyChanged(nameof(isLoser));
+            }
+        }
+
         private int _makiScore;
         public int makiScore
         {
