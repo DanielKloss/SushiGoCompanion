@@ -17,7 +17,7 @@
                       RelativePanel.Below="topCommandBar" Margin="12">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
-                    <Image Source="Assets/TemplateIcon.png" Height="50" Margin="0,0,12,0"/>
+                    <Image Source="/Assets/Logo.png" Height="50" Margin="0,0,12,0"/>
                     <StackPanel>
                         <TextBlock Text="Sushi Go Companion" Style="{StaticResource SubTitleTextStyle}"/>
                         <TextBlock Style="{StaticResource TextStyle}" FontSize="14" HorizontalAlignment="Left">
