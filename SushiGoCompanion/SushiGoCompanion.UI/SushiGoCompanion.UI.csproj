@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SushiGoCompanion.UI</RootNamespace>
     <AssemblyName>SushiGoCompanion.UI</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <DefaultLanguage>en-GB</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
@@ -130,6 +130,7 @@
     <Compile Include="ViewModels\RulesViewModel.cs" />
     <Compile Include="ViewModels\ScoreboardViewModel.cs" />
     <Compile Include="ViewModels\SetupGameViewModel.cs" />
+    <Compile Include="ViewModels\StandingsViewModel.cs" />
     <Compile Include="ViewModels\StatsViewModel.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -164,6 +165,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Logo.png" />
+    <Content Include="Assets\Logos\globalDown.png" />
+    <Content Include="Assets\Logos\globalUp.png" />
+    <Content Include="Assets\Logos\loser.png" />
+    <Content Include="Assets\Logos\milestoneGame.png" />
+    <Content Include="Assets\Logos\milestoneLoss.png" />
+    <Content Include="Assets\Logos\milestoneWin.png" />
+    <Content Include="Assets\Logos\personalDown.png" />
+    <Content Include="Assets\Logos\personalUp.png" />
+    <Content Include="Assets\Logos\winner.png" />
     <Content Include="Assets\Sushi\Dumpling.png" />
     <Content Include="Assets\Sushi\Egg Nigiri.png" />
     <Content Include="Assets\Sushi\Maki.png" />

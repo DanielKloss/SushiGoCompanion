@@ -153,13 +153,13 @@ namespace SushiGoCompanion.UI.ViewModels
                 FindNumberOfSushiCards(player, Sushis.Sashimi).score = 0;
                 FindNumberOfSushiCards(player, Sushis.Tempura).score = 0;
 
-                player.sushiScore.SingleOrDefault(s => s.name == "Egg Nigiri").score = 0;
-                player.sushiScore.SingleOrDefault(s => s.name == "Salmon Nigiri").score = 0;
-                player.sushiScore.SingleOrDefault(s => s.name == "Squid Nigiri").score = 0;
+                player.sushiCards.SingleOrDefault(s => s.name == "Egg Nigiri").score = 0;
+                player.sushiCards.SingleOrDefault(s => s.name == "Salmon Nigiri").score = 0;
+                player.sushiCards.SingleOrDefault(s => s.name == "Squid Nigiri").score = 0;
 
-                player.sushiScore.SingleOrDefault(s => s.name == "Egg Nigiri").wasabis = 0;
-                player.sushiScore.SingleOrDefault(s => s.name == "Salmon Nigiri").wasabis = 0;
-                player.sushiScore.SingleOrDefault(s => s.name == "Squid Nigiri").wasabis = 0;
+                player.sushiCards.SingleOrDefault(s => s.name == "Egg Nigiri").wasabis = 0;
+                player.sushiCards.SingleOrDefault(s => s.name == "Salmon Nigiri").wasabis = 0;
+                player.sushiCards.SingleOrDefault(s => s.name == "Squid Nigiri").wasabis = 0;
 
                 if (game.round == 3)
                 {
@@ -167,7 +167,6 @@ namespace SushiGoCompanion.UI.ViewModels
                     player.sushiScore.Add(new SushiType(Sushis.Pudding));
                 }
             }
-
 
             if (game.round == 4)
             {
@@ -195,6 +194,14 @@ namespace SushiGoCompanion.UI.ViewModels
                 {
                     return;
                 }
+
+                foreach (Player player in game.players)
+                {
+                    player.sushiScore.Add(new SushiType(Sushis.Pudding));
+                    player.sushiCards.Add(new SushiType(Sushis.Pudding));
+                }
+
+                CalculateFinalScores();
             }
 
             AchievementService achievementService = new AchievementService(game);
@@ -261,16 +268,26 @@ namespace SushiGoCompanion.UI.ViewModels
                 }
             }
 
-            game.players = new ObservableCollection<Player>(game.players.OrderBy(p => p.totalScore));
+            game.players = new ObservableCollection<Player>(game.players.OrderByDescending(p => p.totalScore));
 
-            foreach (Player player in game.players.Where(p => p.totalScore == game.players.First().totalScore))
+            if (game.players.Where(p => p.totalScore == game.players.First().totalScore).Count() == game.players.Count)
             {
-                player.isWinner = true;
+                foreach (Player player in game.players)
+                {
+                    player.isWinner = true;
+                }
             }
-
-            foreach (Player player in game.players.Where(p => p.totalScore == game.players.Last().totalScore))
+            else
             {
-                player.isLoser = true;
+                foreach (Player player in game.players.Where(p => p.totalScore == game.players.First().totalScore))
+                {
+                    player.isWinner = true;
+                }
+
+                foreach (Player player in game.players.Where(p => p.totalScore == game.players.Last().totalScore))
+                {
+                    player.isLoser = true;
+                }
             }
         }
 

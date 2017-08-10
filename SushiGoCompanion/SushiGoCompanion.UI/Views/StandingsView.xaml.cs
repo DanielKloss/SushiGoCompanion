@@ -1,30 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using SushiGoCompanion.Data.Models;
+using SushiGoCompanion.UI.ViewModels;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace SushiGoCompanion.UI.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class StandingsView : Page
     {
+        StandingsViewModel viewModel;
+
         public StandingsView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            if (ApiInformation.IsApiContractPresent("Windows.Phone.PhoneContract", 1, 0))
+            {
+                StatusBar.SetIsVisible(this, false);
+            }
+
+            DataContext = new StandingsViewModel();
+            viewModel = DataContext as StandingsViewModel;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested += StandingsView_BackRequested;
+            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+            viewModel.game = e.Parameter as Game;
+            viewModel.game.players = new ObservableCollection<Player>(viewModel.game.players.OrderByDescending(p => p.totalScore));
+        }
+
+        private void StandingsView_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+            ((App)Application.Current).rootFrame.Navigate(typeof(MainMenuView));
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= StandingsView_BackRequested;
+            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
     }
 }

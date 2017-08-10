@@ -87,7 +87,7 @@
                 <StackPanel.RenderTransform>
                     <CompositeTransform TranslateY="5000"></CompositeTransform>
                 </StackPanel.RenderTransform>
-                <Image Source="/Assets/Logos/Logo.png" Height="50" Margin="0,0,0,4"/>
+                <Image Source="/Assets/Logo.png" Height="50" Margin="0,0,0,4"/>
                 <TextBlock Style="{StaticResource TextStyle}" TextWrapping="Wrap" TextAlignment="Center" Margin="0,0,0,12">
                     <Run Text="Round "/>
                     <Run Text="{Binding game.round}"/>
